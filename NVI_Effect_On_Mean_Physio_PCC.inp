@@ -1,0 +1,46 @@
+title:
+ Effect of brain-autonomic coupling on mean autonomic activity
+ 
+data:
+FILE = faces.physio.allbrain0.complete.030718.csv;
+
+  variable:
+  names are
+SID	block	wide	female	
+SCRc	RSAc	vmPFCc	dmPFCc	
+PCCc	Lhipc	dmPFC1c	dmPFC2c	
+RMTGc	RIPLc SCRb RSAb;
+
+
+USEVARIABLES = 
+SCRc PCCc block SCRb;
+within = SCRc PCCc;
+between = SCRb;
+
+CLUSTER = SID;
+
+MISSING = .;
+	
+ANALYSIS:
+	coverage = 0;
+	!model = nocovariances;
+	TYPE = TWOLEVEL RANDOM;
+	ESTIMATOR = ML;
+
+MODEL:
+
+%WITHIN%
+
+block with SCRc PCCc;
+
+S|SCRc ON PCCc;
+
+[SCRc@0 PCCc@0];
+
+ %BETWEEN%
+
+S; [S];
+
+SCRb ON S;
+
+OUTPUT: SAMPSTAT STANDARDIZED CINTERVAL;

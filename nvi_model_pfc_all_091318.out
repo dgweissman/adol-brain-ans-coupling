@@ -1,0 +1,557 @@
+Mplus VERSION 8 (Mac)
+MUTHEN & MUTHEN
+09/13/2018   4:19 PM
+
+INPUT INSTRUCTIONS
+
+  title:
+   Effect of brain-autonomic coupling on mean autonomic activity
+
+  data:
+  FILE = faces.physio.threat.all0.091318.csv;
+
+    variable:
+    names are
+  SID block wide	
+  SCRc RSAc vmPFCc dmPFCc	
+  female	MFQ CDI SCARED	
+  NCrimeM SCrimeM BullyM DiscrimM	
+  vmPFCcS dmPFCcS;
+
+  USEVARIABLES = block female
+  SCRc RSAc vmPFCc dmPFCc
+  vmPFCcS dmPFCcS;
+  !MFQ CDI SCARED	
+  !NCrimeM SCrimeM BullyM DiscrimM;
+  WITHIN = block	
+  SCRc RSAc vmPFCc dmPFCc
+  vmPFCcS dmPFCcS;
+  BETWEEN = female;
+  !MFQ CDI SCARED	
+  !NCrimeM SCrimeM BullyM DiscrimM;
+
+  CLUSTER = SID;
+
+  MISSING = .;
+  	
+  ANALYSIS:
+  	coverage = 0;
+  	!model = nocovariances;
+  	TYPE = TWOLEVEL RANDOM;
+  	ESTIMATOR = ML;
+
+  MODEL:
+
+  %WITHIN%
+
+  RSAc SCRc ON block;
+
+  dmPFCc vmPFCc dmPFCcS vmPFCcS ON block;
+
+  S1|SCRc ON dmPFCc;
+
+  [SCRc@0 dmPFCc@0];
+
+  S1S|SCRc ON dmPFCcS;
+
+  [SCRc@0 dmPFCcS@0];
+
+  S2|RSAc ON vmPFCc;
+
+  [RSAc@0 vmPFCc@0];
+
+  S2S|RSAc ON vmPFCcS;
+
+  [RSAc@0 vmPFCcS@0];
+
+   %BETWEEN%
+
+  S1; [S1];
+
+  S1S; [S1S];
+
+  S2; [S2];
+
+  S2S; [S2S];
+
+  !T by NCrimeM SCrimeM BullyM DiscrimM;
+
+  !I by MFQ CDI SCARED;
+
+  S1 on female;
+  S1s on female;
+  S2 on female;
+  S2s on female;
+
+  !I on T female S1 S2 S1s S2s;
+
+
+  OUTPUT: SAMPSTAT CINTERVAL;
+  !SAVE:
+  !File is fscores.dat;
+  !SAVE = FSCORES;
+
+
+
+*** WARNING in MODEL command
+  Variable on the left-hand side of an ON statement in a | statement is a
+  WITHIN variable.  The intercept for this variable is not random.
+  Variable:  SCRC
+*** WARNING in MODEL command
+  Variable on the left-hand side of an ON statement in a | statement is a
+  WITHIN variable.  The intercept for this variable is not random.
+  Variable:  RSAC
+*** WARNING
+  One or more individual-level variables have no variation within a
+  cluster for the following clusters.
+
+     Variable   Cluster IDs with no within-cluster variation
+
+      SCRC        3022 3036 3039 3048 3050 3067 3073 3076 3080 3105 3000 3141 3142 3011 3158 3178
+                  3179 3194 3195 3198 3207 3224 3229 3234
+      RSAC        3013 3015 3024 3029 3037 3038 3041 3044 3046 3047 3057 3062 3065 3084 3106 3118
+                  3142 3144 3009 3155 3162 3179 3185 3188 3209 3221 3227 3228
+      VMPFCC      3075
+      DMPFCC      3046
+      VMPFCCS     3075
+      DMPFCCS     3046
+
+   3 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+Effect of brain-autonomic coupling on mean autonomic activity
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        2109
+
+Number of dependent variables                                    6
+Number of independent variables                                  2
+Number of continuous latent variables                            4
+
+Observed dependent variables
+
+  Continuous
+   SCRC        RSAC        VMPFCC      DMPFCC      VMPFCCS     DMPFCCS
+
+Observed independent variables
+   BLOCK       FEMALE
+
+Continuous latent variables
+   S1          S1S         S2          S2S
+
+Variables with special functions
+
+  Cluster variable      SID
+
+  Within variables
+   BLOCK       SCRC        RSAC        VMPFCC      DMPFCC      VMPFCCS
+   DMPFCCS
+
+  Between variables
+   FEMALE
+
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                   100
+Convergence criterion                                    0.100D-05
+Maximum number of EM iterations                                500
+Convergence criteria for the EM algorithm
+  Loglikelihood change                                   0.100D-02
+  Relative loglikelihood change                          0.100D-05
+  Derivative                                             0.100D-03
+Minimum variance                                         0.100D-03
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  faces.physio.threat.all0.091318.csv
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             3
+     Number of clusters                        179
+
+     Average cluster size       11.782
+
+     Estimated Intraclass Correlations for the Y Variables
+
+                Intraclass              Intraclass              Intraclass
+     Variable  Correlation   Variable  Correlation   Variable  Correlation
+
+     SCRC         0.000      RSAC         0.000      VMPFCC       0.000
+     DMPFCC       0.000      VMPFCCS      0.000      DMPFCCS      0.000
+
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.000
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              SCRC          RSAC          VMPFCC        DMPFCC        VMPFCCS
+              ________      ________      ________      ________      ________
+ SCRC           0.898
+ RSAC           0.738         0.841
+ VMPFCC         0.898         0.841         1.000
+ DMPFCC         0.898         0.841         1.000         1.000
+ VMPFCCS        0.898         0.841         1.000         1.000         1.000
+ DMPFCCS        0.898         0.841         1.000         1.000         1.000
+ BLOCK          0.898         0.841         1.000         1.000         1.000
+ FEMALE         0.898         0.841         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              DMPFCCS       BLOCK         FEMALE
+              ________      ________      ________
+ DMPFCCS        1.000
+ BLOCK          1.000         1.000
+ FEMALE         1.000         1.000         1.000
+
+
+SAMPLE STATISTICS
+
+NOTE:  The sample statistics for within and between refer to the
+       maximum-likelihood estimated within and between covariance
+       matrices, respectively.
+
+
+     ESTIMATED SAMPLE STATISTICS FOR WITHIN
+
+
+           Means
+              SCRC          RSAC          VMPFCC        DMPFCC        VMPFCCS
+              ________      ________      ________      ________      ________
+                0.000         0.001         0.000         0.000         0.010
+
+
+           Means
+              DMPFCCS       BLOCK         FEMALE
+              ________      ________      ________
+                0.044         6.434         0.000
+
+
+           Covariances
+              SCRC          RSAC          VMPFCC        DMPFCC        VMPFCCS
+              ________      ________      ________      ________      ________
+ SCRC           3.333
+ RSAC           0.101         0.364
+ VMPFCC        -0.064        -0.124         3.614
+ DMPFCC        -0.219        -0.045         1.088         1.871
+ VMPFCCS       -0.061        -0.067         1.826         0.587         1.825
+ DMPFCCS       -0.058        -0.026         0.587         0.914         0.587
+ BLOCK         -0.214         0.115        -1.743        -0.842        -0.851
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+
+
+           Covariances
+              DMPFCCS       BLOCK         FEMALE
+              ________      ________      ________
+ DMPFCCS        0.912
+ BLOCK         -0.371        11.864
+ FEMALE         0.000         0.000         0.000
+
+
+           Correlations
+              SCRC          RSAC          VMPFCC        DMPFCC        VMPFCCS
+              ________      ________      ________      ________      ________
+ SCRC           1.000
+ RSAC           0.092         1.000
+ VMPFCC        -0.018        -0.108         1.000
+ DMPFCC        -0.088        -0.054         0.418         1.000
+ VMPFCCS       -0.025        -0.082         0.711         0.318         1.000
+ DMPFCCS       -0.033        -0.045         0.323         0.700         0.455
+ BLOCK         -0.034         0.055        -0.266        -0.179        -0.183
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+
+
+           Correlations
+              DMPFCCS       BLOCK         FEMALE
+              ________      ________      ________
+ DMPFCCS        1.000
+ BLOCK         -0.113         1.000
+ FEMALE         0.000         0.000         0.000
+
+
+     ESTIMATED SAMPLE STATISTICS FOR BETWEEN
+
+
+           Means
+              SCRC          RSAC          VMPFCC        DMPFCC        VMPFCCS
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           Means
+              DMPFCCS       BLOCK         FEMALE
+              ________      ________      ________
+                0.000         0.000         0.492
+
+
+           Covariances
+              SCRC          RSAC          VMPFCC        DMPFCC        VMPFCCS
+              ________      ________      ________      ________      ________
+ SCRC           0.000
+ RSAC           0.000         0.000
+ VMPFCC         0.000         0.000         0.000
+ DMPFCC         0.000         0.000         0.000         0.000
+ VMPFCCS        0.000         0.000         0.000         0.000         0.000
+ DMPFCCS        0.000         0.000         0.000         0.000         0.000
+ BLOCK          0.000         0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+
+
+           Covariances
+              DMPFCCS       BLOCK         FEMALE
+              ________      ________      ________
+ DMPFCCS        0.000
+ BLOCK          0.000         0.000
+ FEMALE         0.000         0.000         0.250
+
+
+           Correlations
+              SCRC          RSAC          VMPFCC        DMPFCC        VMPFCCS
+              ________      ________      ________      ________      ________
+ SCRC           0.000
+ RSAC           0.000         0.000
+ VMPFCC         0.000         0.000         0.000
+ DMPFCC         0.000         0.000         0.000         0.000
+ VMPFCCS        0.000         0.000         0.000         0.000         0.000
+ DMPFCCS        0.000         0.000         0.000         0.000         0.000
+ BLOCK          0.000         0.000         0.000         0.000         0.000
+ FEMALE         0.000         0.000         0.000         0.000         0.000
+
+
+           Correlations
+              DMPFCCS       BLOCK         FEMALE
+              ________      ________      ________
+ DMPFCCS        0.000
+ BLOCK          0.000         0.000
+ FEMALE         0.000         0.000         1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -17991.081
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     SCRC                  0.000       1.136      -6.583    0.05%      -1.167     -0.333     -0.167
+            1893.000       3.336       5.277      14.667    0.05%       0.000      1.000
+     RSAC                  0.001       1.311      -2.545    0.06%      -0.456     -0.149     -0.016
+            1773.000       0.364      11.908       6.691    0.06%       0.111      0.428
+     VMPFCC                0.000      -1.207     -18.578    0.05%      -1.071     -0.245      0.032
+            2109.000       3.614       9.303       8.281    0.05%       0.361      1.168
+     DMPFCC                0.000      -1.541     -18.555    0.05%      -0.684     -0.176      0.000
+            2109.000       1.871      37.398      13.036    0.05%       0.197      0.699
+     VMPFCCS               0.010      -1.597     -14.019    0.05%      -0.221      0.000      0.000
+            2109.000       1.825      16.831       6.985    0.05%       0.000      0.403
+     DMPFCCS               0.044       0.106     -13.693    0.05%      -0.100      0.000      0.000
+            2109.000       0.912      53.049      13.036    0.05%       0.000      0.275
+     BLOCK                 6.434       0.028       1.000    8.49%       3.000      5.000      6.000
+            2109.000      11.864      -1.209      12.000    8.11%       8.000     10.000
+     FEMALE                0.492       0.034       0.000   50.84%       0.000      0.000      0.000
+             179.000       0.250      -1.999       1.000   49.16%       1.000      1.000
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       25
+
+Loglikelihood
+
+          H0 Value                      -19857.637
+
+Information Criteria
+
+          Akaike (AIC)                   39765.274
+          Bayesian (BIC)                 39906.624
+          Sample-Size Adjusted BIC       39827.196
+            (n* = (n + 2) / 24)
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Within Level
+
+ RSAC       ON
+    BLOCK              0.000      0.002      0.138      0.890
+
+ SCRC       ON
+    BLOCK             -0.007      0.006     -1.181      0.238
+
+ DMPFCC     ON
+    BLOCK             -0.016      0.004     -3.889      0.000
+
+ VMPFCC     ON
+    BLOCK             -0.033      0.006     -5.815      0.000
+
+ DMPFCCS    ON
+    BLOCK             -0.002      0.003     -0.595      0.552
+
+ VMPFCCS    ON
+    BLOCK             -0.015      0.004     -3.679      0.000
+
+ RSAC     WITH
+    SCRC               0.102      0.027      3.810      0.000
+
+ Intercepts
+    SCRC               0.000      0.000    999.000    999.000
+    RSAC               0.000      0.000    999.000    999.000
+    VMPFCC             0.000      0.000    999.000    999.000
+    DMPFCC             0.000      0.000    999.000    999.000
+    VMPFCCS            0.000      0.000    999.000    999.000
+    DMPFCCS            0.000      0.000    999.000    999.000
+
+ Residual Variances
+    SCRC               3.060      0.105     29.114      0.000
+    RSAC               0.326      0.011     28.317      0.000
+    VMPFCC             3.557      0.110     32.473      0.000
+    DMPFCC             1.858      0.057     32.473      0.000
+    VMPFCCS            1.814      0.056     32.473      0.000
+    DMPFCCS            0.914      0.028     32.473      0.000
+
+Between Level
+
+ S1         ON
+    FEMALE            -0.089      0.138     -0.646      0.518
+
+ S1S        ON
+    FEMALE             0.244      0.174      1.404      0.160
+
+ S2         ON
+    FEMALE             0.009      0.025      0.359      0.720
+
+ S2S        ON
+    FEMALE             0.076      0.041      1.837      0.066
+
+ Intercepts
+    S1                -0.056      0.092     -0.611      0.541
+    S1S               -0.155      0.116     -1.344      0.179
+    S2                -0.034      0.016     -2.077      0.038
+    S2S               -0.042      0.027     -1.538      0.124
+
+ Residual Variances
+    S1                 0.153      0.076      2.002      0.045
+    S1S                0.116      0.084      1.387      0.165
+    S2                 0.003      0.002      1.645      0.100
+    S2S                0.016      0.005      3.534      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.432E-05
+       (ratio of smallest to largest eigenvalue)
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Within Level
+
+ RSAC     ON
+    BLOCK           -0.005      -0.003      -0.003       0.000       0.003       0.004       0.005
+
+ SCRC     ON
+    BLOCK           -0.021      -0.018      -0.016      -0.007       0.003       0.004       0.008
+
+ DMPFCC   ON
+    BLOCK           -0.026      -0.024      -0.023      -0.016      -0.009      -0.008      -0.005
+
+ VMPFCC   ON
+    BLOCK           -0.047      -0.044      -0.042      -0.033      -0.023      -0.022      -0.018
+
+ DMPFCCS  ON
+    BLOCK           -0.009      -0.007      -0.006      -0.002       0.003       0.004       0.006
+
+ VMPFCCS  ON
+    BLOCK           -0.025      -0.023      -0.021      -0.015      -0.008      -0.007      -0.004
+
+ RSAC     WITH
+    SCRC             0.033       0.050       0.058       0.102       0.146       0.155       0.171
+
+ Intercepts
+    SCRC             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    RSAC             0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    VMPFCC           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    DMPFCC           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    VMPFCCS          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    DMPFCCS          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Residual Variances
+    SCRC             2.789       2.854       2.887       3.060       3.233       3.266       3.330
+    RSAC             0.296       0.303       0.307       0.326       0.344       0.348       0.355
+    VMPFCC           3.275       3.342       3.377       3.557       3.737       3.772       3.839
+    DMPFCC           1.710       1.745       1.763       1.858       1.952       1.970       2.005
+    VMPFCCS          1.670       1.704       1.722       1.814       1.906       1.923       1.958
+    DMPFCCS          0.841       0.859       0.867       0.914       0.960       0.969       0.986
+
+Between Level
+
+ S1       ON
+    FEMALE          -0.445      -0.360      -0.317      -0.089       0.138       0.182       0.267
+
+ S1S      ON
+    FEMALE          -0.203      -0.097      -0.042       0.244       0.529       0.584       0.691
+
+ S2       ON
+    FEMALE          -0.056      -0.040      -0.032       0.009       0.050       0.058       0.074
+
+ S2S      ON
+    FEMALE          -0.031      -0.005       0.008       0.076       0.144       0.158       0.183
+
+ Intercepts
+    S1              -0.293      -0.236      -0.207      -0.056       0.095       0.124       0.180
+    S1S             -0.453      -0.382      -0.346      -0.155       0.035       0.071       0.142
+    S2              -0.077      -0.066      -0.061      -0.034      -0.007      -0.002       0.008
+    S2S             -0.112      -0.095      -0.087      -0.042       0.003       0.012       0.028
+
+ Residual Variances
+    S1              -0.044       0.003       0.027       0.153       0.279       0.303       0.350
+    S1S             -0.100      -0.048      -0.022       0.116       0.255       0.281       0.333
+    S2              -0.002      -0.001       0.000       0.003       0.006       0.006       0.007
+    S2S              0.004       0.007       0.009       0.016       0.024       0.025       0.028
+
+
+     Beginning Time:  16:19:21
+        Ending Time:  16:19:22
+       Elapsed Time:  00:00:01
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2017 Muthen & Muthen

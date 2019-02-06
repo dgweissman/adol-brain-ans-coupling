@@ -1,0 +1,61 @@
+title:
+ Effect of brain-autonomic coupling on mean autonomic activity
+ 
+data:
+FILE = faces.physio.threat0.complete.030118.csv;
+
+  variable:
+  names are
+SID	block	wide	SCRc	RSAc	
+vmPFCc	dmPFCc	Lhipc	female	
+PThreat1	PThreat2	PThreat3	PThreat4	
+NCrime1	NCrime2	NCrime3	NCrime4	
+SCrime1	SCrime2	SCrime3	SCrime4	
+Bully1	Bully2	Bully3	Bully4	
+Discrim1	Discrim2	Discrim3	Discrim4	
+CDIB	SDQB	SCAREDB	MFQB 
+SCRm RSAm RSAb	SCRb	RSAr	SCRr;
+
+
+USEVARIABLES = 
+ block RSAc	vmPFCc RSAb;
+within = block RSAc vmPFCc;
+between = RSAb;
+
+CLUSTER = SID;
+
+MISSING = .;
+	
+ANALYSIS:
+	coverage = 0;
+	!model = nocovariances;
+	TYPE = TWOLEVEL RANDOM;
+	ESTIMATOR = ML;
+
+MODEL:
+
+%WITHIN%
+
+!Covarying block with all within variables to 'detrend' !
+
+block with RSAc vmPFCc;
+
+! Latent variables representing the coupling of RSA with vmPFC activity. !
+! All variables are mean centered, but not standardized. The direction   !
+! of the association is the hypothesized mechanism of influence, brain   !
+! controlling or regulating ANS.                                         !
+
+S2|RSAc ON vmPFCc;
+
+[RSAc@0 vmPFCc@0];
+
+ %BETWEEN%
+
+S2; [S2];
+
+! Predicting baseline RSA outside of the scanner by the !
+! strength of coupling during the task in the scanner   !
+
+RSAb ON S2;
+
+OUTPUT: SAMPSTAT STANDARDIZED CINTERVAL;

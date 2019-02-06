@@ -1,0 +1,56 @@
+title:
+ Effect of brain-autonomic coupling on mean autonomic activity
+ 
+data:
+FILE = faces.physio.allbrain0.complete.030718.csv;
+
+  variable:
+  names are
+SID	block	wide	female	
+SCRc	RSAc	vmPFCc	dmPFCc	
+PCCc	Lhipc	dmPFC1c	dmPFC2c	
+RMTGc	RIPLc SCRb RSAb;
+
+
+USEVARIABLES = 
+block SCRc Lhipc SCRb;
+within = block SCRc Lhipc;
+between = SCRb;
+
+CLUSTER = SID;
+
+MISSING = .;
+	
+ANALYSIS:
+	coverage = 0;
+	!model = nocovariances;
+	TYPE = TWOLEVEL RANDOM;
+	ESTIMATOR = ML;
+
+MODEL:
+
+%WITHIN%
+
+!Covarying block with all within variables to 'detrend' !
+
+block WITH SCRc Lhipc;
+
+! Latent variable representing the coupling of SCR with left hippocampus !
+! All variables are mean centered, but not standardized. The direction   !
+! of the association is the hypothesized mechanism of influence, brain   !
+! controlling or regulating ANS.                                         !
+
+S|SCRc ON Lhipc;
+
+[SCRc@0 Lhipc@0];
+
+ %BETWEEN%
+
+S; [S];
+
+! Predicting baseline skin conductance outside of the scanner !
+! by the strength of coupling during the task in the scanner  !
+
+SCRb ON S;
+
+OUTPUT: SAMPSTAT STANDARDIZED CINTERVAL;
