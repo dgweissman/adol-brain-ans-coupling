@@ -1,5 +1,6 @@
 # adol-brain-ans-coupling
 Code and data used in 
+
 Weissman, D. G., Guyer, A. E., Ferrer, E., Robins, R.W., Hastings, P. D., (2018) Adolescents’ brain-autonomic coupling during emotion processing. NeuroImage. 183, 818-827. https://doi.org/10.1016/j.neuroimage.2018.08.069
 
 Files are 
