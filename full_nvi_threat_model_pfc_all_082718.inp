@@ -1,0 +1,92 @@
+title:
+ Effect of brain-autonomic coupling on mean autonomic activity
+ 
+data:
+FILE = faces.physio.threat0.082718.csv;
+
+  variable:
+  names are
+SID	block	wide	SCRc	RSAc	
+vmPFCc	dmPFCc	female	
+MFQ	CDI	SCARED	
+NCrimeM	SCrimeM	BullyM	DiscrimM	
+W1GA W1MD;
+
+USEVARIABLES = 
+ block SCRc RSAc vmPFCc dmPFCc 
+ female 
+ NCrimeM SCrimeM	BullyM	DiscrimM
+ MFQ CDI SCARED W1GA W1MD;
+within = block SCRc RSAc vmPFCc dmPFCc;
+between = 
+female NCrimeM SCrimeM	BullyM	DiscrimM
+MFQ CDI SCARED W1GA W1MD;
+
+CLUSTER = SID;
+
+MISSING = .;
+	
+ANALYSIS:
+	coverage = 0;
+	!model = nocovariances;
+	TYPE = TWOLEVEL RANDOM;
+	ESTIMATOR = ML;
+	ALGORITHM=INTEGRATION;
+
+MODEL:
+
+%WITHIN%
+
+dmPFCc vmPFCc RSAc SCRc ON block;
+
+S1|SCRc ON dmPFCc;
+
+[SCRc@0 dmPFCc@0];
+
+S2|RSAc ON vmPFCc;
+
+[RSAc@0 vmPFCc@0];
+
+dmPFCc with vmPFCc;
+
+RSAc with SCRc;
+
+ %BETWEEN%
+
+T by NCrimeM SCrimeM BullyM DiscrimM;
+
+I1 by W1GA W1MD;
+
+I by MFQ CDI SCARED;
+
+S1; [S1];
+
+S2; [S2];
+
+S1 on T (a1);
+
+S1 on female;
+
+S2 on T (a2); 
+
+S2 on female;
+
+I on S1 (b1);
+
+I on S2 (b2); 
+
+I on I1 T female;
+
+S1 with S2 @0;
+
+OUTPUT: SAMPSTAT CINTERVAL;
+
+MODEL CONSTRAINT:
+
+NEW(indt);
+
+indt=a1*b1+a2*b2;
+
+SAVE:
+File is fscores.txt;
+SAVE = FSCORES;
